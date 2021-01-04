@@ -5,6 +5,7 @@ export default class Navigation extends Component {
     super(props);
     this.state = {
       products: [],
+      total: 0
     };
   }
 
@@ -19,38 +20,86 @@ export default class Navigation extends Component {
 
   componentWillReceiveProps(data) {
     let { products } = this.state;
+    data.getDataFromApp.quantity = 1
     products.push(data.getDataFromApp);
+    
     this.setState({
-      products,
+      products
     });
     localStorage.setItem("cart", JSON.stringify(products));
   }
 
+
+  increaseProduct=(data)=>{
+    let {products} = this.state
+    let index = products.findIndex(product => product === data)
+
+    const price = data.Don_gia_Ban / data.quantity
+    products[index].quantity = products[index].quantity + 1
+    products[index].Don_gia_Ban = +products[index].Don_gia_Ban + price
+    this.setState({
+      products
+    })
+  }
+
+  decreaseProduct= (data ) => {
+    let {products} = this.state
+
+    let index = products.findIndex(product => product === data)
+    console.log(index)
+    const price = data.Don_gia_Ban / data.quantity
+    if(products[index].quantity > 1 ){
+      products[index].quantity = products[index].quantity - 1
+      products[index].Don_gia_Ban = (+products[index].Don_gia_Ban - price).toFixed(0)
+    }
+    this.setState({
+      products
+    })
+  }
+
+  deleteProduct= (data)=>{
+    let {products} = this.state
+
+    let index = products.findIndex(product => product === data)
+
+    products.splice(index,1)
+    this.setState({
+      products
+    })
+  }
+
   render() {
     const { products } = this.state;
+
+    let price = products.map(data=>+data.Don_gia_Ban)
+    let total = price.reduce((currentValue,total)=>{
+      return currentValue + total
+    }, 0);
+
     const element = products.map((data, index) => {
       const src = `https://media2-anhlien.herokuapp.com/${data.Ma_so}.png`;
 
       return (
         <tr className="text-center" key={index * Math.random()}>
           <td>
-            <img src={src} />{" "}
+            <img src={src} />
           </td>
           <td>{data.Ten}</td>
           <td>
-            {" "}
-            <button>
+            {data.quantity}
+            <button onClick = {()=>{this.increaseProduct(data)}}>
               <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>{" "}
-            <button>
+            </button>
+            <button onClick = {()=>{this.decreaseProduct(data)}}>
               <i class="fa fa-minus" aria-hidden="true"></i>
-            </button>{" "}
+            </button>
           </td>
 
           <td>{data.Don_gia_Ban} </td>
           <td>
-            {" "}
-            <i class="fa fa-trash" aria-hidden="true"></i>{" "}
+            <button onClick={()=>{this.deleteProduct(data)}}>
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
           </td>
         </tr>
       );
@@ -215,7 +264,7 @@ export default class Navigation extends Component {
                           <td>Thanh Tien</td>
                           <td></td>
                           <td></td>
-                          <td></td>
+                          <td>{total} $</td>
                           <td></td>
                         </tr>
                         <tbody id="Th_Danh_sach_Dien_thoai_Mua" />
