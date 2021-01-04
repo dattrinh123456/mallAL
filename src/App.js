@@ -10,50 +10,39 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Controlbar from "./components/Controlbar";
 
-// function App() {
-
-//  const receivalueSearch =(data)=>{
-//  console.log(data)
-//   }
-//   return (
-//     <div >
-//       <Navigation/>
-//       <Controlbar valueSearch={receivalueSearch}  />
-//       <Portfolio/>
-//       <Team/>
-//       <Client/>
-//       <Contact/>
-//       <Footer/>
-
-//     </div>
-//   );
-// }
-
-// export default App;
 import React, { Component } from "react";
 
- class App extends Component {
-   constructor (props) {
-     super(props)
-     this.state = {
-       valueSearch :''
-     }
-   }
- receivalueSearch =(data)=>{
-    this.setState(
-      {
-        valueSearch:data
-      }
-    )
-     }
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      valueSearch: "",
+      product: "",
+    };
+  }
+  receivalueSearch = (data) => {
+    this.setState({
+      valueSearch: data,
+    });
+  };
+
+  getDataFromPor = (data) => {
+    this.setState({
+      product: data,
+    });
+  };
+  
   render() {
-   
+    const { product } = this.state;
     return (
       <div>
         <div>
-          <Navigation />
-          <Controlbar valueSearch={this.receivalueSearch}  />
-          <Portfolio valueSearch={this.state.valueSearch}/>
+          <Navigation getDataFromApp={product} />
+          <Controlbar valueSearch={this.receivalueSearch} />
+          <Portfolio
+            valueSearch={this.state.valueSearch}
+            sendDataToApp={this.getDataFromPor}
+          />
           <Team />
           <Client />
           <Contact />
@@ -63,4 +52,4 @@ import React, { Component } from "react";
     );
   }
 }
-export default App
+export default App;

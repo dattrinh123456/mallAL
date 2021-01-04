@@ -61,6 +61,9 @@ export default class Portfolio extends Component {
     });
   };
 
+  getDetailOfProduct = (data) => {
+    this.props.sendDataToApp(data)
+  };
 
   render() {
     let { currentpage, products, itemPerPage, listOfPage } = this.state;
@@ -103,10 +106,12 @@ export default class Portfolio extends Component {
                           data-toggle="modal"
                           href="#portfolioModal1"
                         ></i>
-                        <i
-                          class="fa fa-shopping-cart fa-2x ml-5"
-                          aria-hidden="true"
-                        ></i>
+                        <button onClick={()=>{this.getDetailOfProduct(product)}}>
+                          <i
+                            class="fa fa-shopping-cart fa-2x ml-5"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
                       </div>
                     </div>
                     <img className="img-fluid" src={src} alt="" />
@@ -176,7 +181,7 @@ export default class Portfolio extends Component {
               style={{ height: "30rem" }}
             >
               <div>
-                <div className="portfolio-item text-center  border rounded ">
+                <div className="portfolio-item text-center  border rounded  ">
                   <a className="portfolio-link">
                     <div className="portfolio-hover">
                       <div className="portfolio-hover-content">
@@ -186,10 +191,12 @@ export default class Portfolio extends Component {
                           data-toggle="modal"
                           href="#portfolioModal1"
                         ></i>
-                        <i
-                          class="fa fa-shopping-cart fa-2x ml-5"
-                          aria-hidden="true"
-                        ></i>
+                        <button onClick={()=>{this.getDetailOfProduct(product)}}>
+                          <i
+                            class="fa fa-shopping-cart fa-2x ml-5"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
                       </div>
                     </div>
                     <img className="img-fluid" src={src} alt="" />
@@ -271,7 +278,7 @@ export default class Portfolio extends Component {
         </section>
 
         {/* Modal 1*/}
-      
+
         <div className="container text-right ">
           <div className="row">
             <nav aria-label="Page navigation ">
