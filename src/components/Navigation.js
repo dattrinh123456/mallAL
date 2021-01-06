@@ -20,20 +20,28 @@ export default class Navigation extends Component {
 
   componentWillReceiveProps(data) {
     let { products } = this.state;
-    data.getDataFromApp.quantity = 1
-    products.push(data.getDataFromApp);
-    
-    this.setState({
-      products
-    });
+    let index = products.findIndex(product => product === data.getDataFromApp)
+    console.log(index)
+    if(index!==-1){
+      products[index].quantity = products[index].quantity++
+      products[index].Don_gia_Ban = products[index].Don_gia_Ban + 190
+
+    }else{
+      data.getDataFromApp.quantity = 1
+      products.push(data.getDataFromApp);
+      this.setState({
+        products
+      });
+    }
     localStorage.setItem("cart", JSON.stringify(products));
+
+    
   }
 
 
   increaseProduct=(data)=>{
     let {products} = this.state
     let index = products.findIndex(product => product === data)
-
     const price = data.Don_gia_Ban / data.quantity
     products[index].quantity = products[index].quantity + 1
     products[index].Don_gia_Ban = +products[index].Don_gia_Ban + price
@@ -46,7 +54,6 @@ export default class Navigation extends Component {
     let {products} = this.state
 
     let index = products.findIndex(product => product === data)
-    console.log(index)
     const price = data.Don_gia_Ban / data.quantity
     if(products[index].quantity > 1 ){
       products[index].quantity = products[index].quantity - 1
@@ -66,6 +73,8 @@ export default class Navigation extends Component {
     this.setState({
       products
     })
+    localStorage.setItem("cart", JSON.stringify(products));
+    
   }
 
   render() {
@@ -254,7 +263,6 @@ export default class Navigation extends Component {
                             <th>Hình </th>
                             <th>Tên </th>
                             <th>Số lượng </th>
-
                             <th>Thành tiền</th>
                             <th> </th>
                           </tr>

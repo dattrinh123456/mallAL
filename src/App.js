@@ -16,15 +16,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      valueSearch: "",
       product: "",
     };
   }
-  receivalueSearch = (data) => {
-    this.setState({
-      valueSearch: data,
-    });
-  };
 
   getDataFromPor = (data) => {
     this.setState({
@@ -38,7 +32,6 @@ class App extends Component {
       <div>
         <div>
           <Navigation getDataFromApp={product} />
-          <Controlbar valueSearch={this.receivalueSearch} />
           <Portfolio
             valueSearch={this.state.valueSearch}
             sendDataToApp={this.getDataFromPor}
